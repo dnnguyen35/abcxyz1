@@ -1,9 +1,9 @@
 ﻿
 require('dotenv').config();
 var cors = require('cors');
-let Telegram      = require('node-telegram-bot-api');
-let TelegramToken = '5663307819:AAExhS0TUCWUEJazQwqngorxRPucU-5JLJc';
-let TelegramBot   = new Telegram(TelegramToken, {polling: true});
+// let Telegram      = require('node-telegram-bot-api');
+// let TelegramToken = '5663307819:AAExhS0TUCWUEJazQwqngorxRPucU-5JLJc';
+// let TelegramBot   = new Telegram(TelegramToken, {polling: true});
 let fs 			  = require('fs');
 //let https     	  = require('https')
 //let privateKey    = fs.readFileSync('./ssl/b86club.key', 'utf8');
@@ -26,7 +26,14 @@ let mongoose = require('mongoose');
 require('mongoose-long')(mongoose); // INT 64bit
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex',   true);
-mongoose.connect(configDB.url, configDB.options); // kết nối tới database
+// mongoose.connect(configDB.url, configDB.options); // kết nối tới database
+mongoose.connect(configDB.url, configDB.options)
+    .then(() => {
+        console.log("Database connected successfully");
+    })
+    .catch((err) => {
+        console.error("Error connecting to database: ", err);
+    });
 // cấu hình tài khoản admin mặc định và các dữ liệu mặc định
 require('./config/admin');
 // đọc dữ liệu from
@@ -40,7 +47,7 @@ app.use(express.static('public'));
 // server socket
 let redT = expressWs.getWss();
 process.redT = redT;
-redT.telegram = TelegramBot;
+// redT.telegram = TelegramBot;
 global['redT'] = redT;
 global['userOnline'] = 0;
 require('./app/Helpers/socketUser')(redT); // Add function socket
@@ -49,7 +56,7 @@ require('./routerCMS')(app, redT);	//load routes CMS
 require('./routerSocket')(app, redT); // load các routes WebSocket
 require('./app/Cron/taixiu')(redT);   // Chạy game Tài Xỉu
 require('./app/Cron/baucua')(redT);   // Chạy game Bầu Cua
-require('./config/cron')();
+require('./config/Cron')();
 require('./app/Telegram/Telegram')(redT); // Telegram Bot
 app.listen(port, function() {
     console.log("Server listen on port ", port);

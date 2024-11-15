@@ -1,5 +1,5 @@
 module.exports = {
-	'url': 'mongodb://127.0.0.1:27017',
+	'url': 'mongodb+srv://dnnguyeen2003:gZMCoDCPQwdSIvgQ@club3333.qulks.mongodb.net/?retryWrites=true&w=majority&appName=CLUB3333',
 	'options': {
 		'dbName': 'CLUB3333', // red
 		//'dbName': 'GAME', // red

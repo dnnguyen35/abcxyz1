@@ -32,7 +32,7 @@ module.exports = function(app, redT) {
 	});
 
 	// Admin
-	app.get('/68ClubA/', function(req, res) {
+	app.get('/admin/', function(req, res) {
 		return res.render('admin');
 	});
 
